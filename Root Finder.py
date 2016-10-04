@@ -1,10 +1,11 @@
 import numpy as np
-import random
+import random, time
 from random import randint
+import matplotlib.pyplot as plt
 
 # Function to evaluate
 def f(x):
-    return (x ** 3 - 54 * x ** 2 + 23 * x + 6630)
+    return (x ** 3 - 101 * x ** 2 + 3031 * x - 24531)
 
 # Breed two integers
 def breed(a, b):
@@ -48,10 +49,10 @@ def mutate(x):
 # Evolve 10 initial chromosomes to find the root of f(x) in the range [0, 63]
 def evolve(chromosomes):
 
-    # Loop through 32 generations of 10 chromosomes
+    # Loop through 64 generations of 10 chromosomes
     # Starts off with 10 random chromosomes, but they will evolve over time, becoming closer to the root of the function
     # The more iterations the more accurate the result, but the longer it will take
-    for i in range(32):
+    for i in range(64):
 
         # Get f(x) for first 10 chromosomes.
         # First part of each element in chromosomes is chromosome value, i.e. x, and second part is f(x)
@@ -111,13 +112,30 @@ def evolve(chromosomes):
     return chromosomes[0]
 
 
+# Start timer
+start = time.time()
 
-# Set up 10 initial chromosomes to random 6 bit numbers
-chromosomes = np.zeros([10, 2])
-for i in range(10):
-    chromosomes[i] = [random.getrandbits(6), 0]
+# Initialise empty array for results
+results = []
 
-# Evolve chromosomes to find root of f(x)
-root = evolve(chromosomes)
-print('Root: ' + str(root[0]))
-print('Error Margin: ' + str(root[1]))
+# Calculate root 100 times and store in results array
+for i in range(1000):
+    # Set up 10 initial chromosomes to random 6 bit numbers
+    chromosomes = np.zeros([10, 2])
+    for i in range(10):
+        chromosomes[i] = [random.getrandbits(6), 0]
+
+    # Evolve chromosomes to find root of f(x)
+    root = evolve(chromosomes)
+    results.append(root[0])
+
+# Get time taken
+end = time.time()
+print('Time Taken: ' + str(end - start))
+
+# Plot histogram of results
+plt.hist(results, bins=64)
+plt.title("Roots of f(x)")
+plt.xlabel("Value")
+plt.ylabel("Frequency")
+plt.show()
