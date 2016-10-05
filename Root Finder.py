@@ -4,6 +4,8 @@ from random import randint
 import matplotlib.pyplot as plt
 
 # Function to evaluate
+# Current function f(x) = x^3 - 101x^2 + 3031x - 24531
+# f(x) has roots at 13, 37 and 51
 def f(x):
     return (x ** 3 - 101 * x ** 2 + 3031 * x - 24531)
 
@@ -77,11 +79,11 @@ def evolve(chromosomes):
                 b = chromosomes[i+1][0]
 
                 # Add the 3 offspring to first 3 items of temp array
-                tempArray[i/2] = [breed(a, b), 0]
+                tempArray[int(i/2)] = [breed(a, b), 0]
 
 
         # Randomly mutate a chromosome, one from the bottom 4 and one from the top 6
-        bottomChromosome = chromosomes[randint(6, 9)][0]
+        bottomChromosome = chromosomes[randint(0, 5)][0]
         topChromosome = chromosomes[randint(0, 5)][0]
 
         # Add the two mutated cells to the temp array
@@ -118,7 +120,7 @@ start = time.time()
 # Initialise empty array for results
 results = []
 
-# Calculate root 100 times and store in results array
+# Calculate root 1000 times and store in results array
 for i in range(1000):
     # Set up 10 initial chromosomes to random 6 bit numbers
     chromosomes = np.zeros([10, 2])
